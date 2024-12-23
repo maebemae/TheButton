@@ -1,0 +1,9 @@
+../Core/Src/main.c:66:6:HAL_GPIO_EXTI_Rising_Callback	3
+../Core/Src/main.c:77:6:HAL_GPIO_EXTI_Falling_Callback	3
+../Core/Src/main.c:94:5:main2	1
+../Core/Src/main.c:167:6:SystemClock_Config	3
+../Core/Src/main.c:208:13:MX_USART2_UART_Init	5
+../Core/Src/main.c:256:13:MX_USB_PCD_Init	2
+../Core/Src/main.c:292:13:MX_GPIO_Init	1
+../Core/Src/main.c:323:6:BSP_PB_Callback	2
+../Core/Src/main.c:335:6:Error_Handler	1
