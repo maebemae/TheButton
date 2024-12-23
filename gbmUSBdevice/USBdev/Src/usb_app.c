@@ -85,6 +85,16 @@ __attribute__ ((weak)) bool BtnGet(void)
 	return 0;	// redefine to get button state
 }
 
+
+
+bool lastButton = false;
+bool printing = false;
+uint8_t printed = 0;
+bool keyOn = false;
+
+static const uint8_t TEXT[] = "well bite me";
+
+
 static bool HIDupdateKB(const struct usbdevice_ *usbd)
 {
 #ifdef HID_PWR
@@ -92,9 +102,54 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 	if (change)
 		hid_data.InReport[0] ^= 1;
 #else
-	bool change = (bool)hid_data.InReport[2] ^ BtnGet();
-	if (change)
-		hid_data.InReport[2] ^= HIDKB_KPADSTAR;
+//	bool change = (bool)hid_data.InReport[2] ^ BtnGet();
+//	if (change)
+//		hid_data.InReport[2] ^= HIDKB_KPADSTAR;
+
+	bool button = BtnGet();
+	bool change = false;
+	if(button != lastButton)
+	{
+		button = lastButton;
+		change = true;
+	}
+
+	if(change && !printing)
+	{
+		printing = true;
+	}
+
+	if(printed >= sizeof(TEXT))
+	{
+		printing = false;
+		printed = 0;
+		hid_data.InReport[2] = 0;
+		keyOn = false;
+	}
+
+
+	// todo map from here
+	// https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf
+
+	if(printing)
+	{
+		uint8_t character = TEXT[printed];
+		uint8_t hidId;
+		hid_data.InReport[0] = 0;
+		if(character == ' '){
+			hidId = 44;
+		} else {
+			uint8_t offset = character - 'a';
+			hidId = offset + HIDKB_KEY_A;
+			// this does capslock
+			hid_data.InReport[0] = 2;
+		}
+		hid_data.InReport[2] = hidId;
+		printed++;
+		keyOn = true;
+	}
+	return printing;
+
 #endif
 	return change;
 }
