@@ -88,6 +88,7 @@ void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
 /* USER CODE END 0 */
 
 /**
+ *
   * @brief  The application entry point.
   * @retval int
   */

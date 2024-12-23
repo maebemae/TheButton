@@ -8,8 +8,10 @@
 // MCU header should be included BEFORE this file, so that MCU type and family symbols are defined
 //========================================================================
 // user button - blue
-#define BTN_PORT	GPIOC
-#define BTN_BIT		13
+//#define BTN_PORT	GPIOC
+//#define BTN_BIT		13
+#define BTN_PORT	GPIOA
+#define BTN_BIT		9
 #define BTN_MSK		(1u << BTN_BIT)
 
 #if defined(STM32G0) || defined(STM32G4) || defined(STM32H5) || defined(STM32U5)

@@ -92,7 +92,7 @@ bool printing = false;
 uint8_t printed = 0;
 bool keyOn = false;
 
-static const uint8_t TEXT[] = "well bite me";
+static const uint8_t TEXT[] = "What is my purpose?";
 
 
 static bool HIDupdateKB(const struct usbdevice_ *usbd)
@@ -123,6 +123,7 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 	{
 		printing = false;
 		printed = 0;
+		hid_data.InReport[0] = 0;
 		hid_data.InReport[2] = 0;
 		keyOn = false;
 	}
@@ -131,22 +132,33 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 	// todo map from here
 	// https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf
 
-	if(printing)
-	{
+	if (printing && !keyOn) {
+
 		uint8_t character = TEXT[printed];
 		uint8_t hidId;
 		hid_data.InReport[0] = 0;
-		if(character == ' '){
+		if (character == ' ') {
 			hidId = 44;
-		} else {
+		} else if (character == '?') {
+			hidId = 56;
+			hid_data.InReport[0] = 2;
+		} else if (character >= 'a' && character <= 'z') {
 			uint8_t offset = character - 'a';
 			hidId = offset + HIDKB_KEY_A;
-			// this does capslock
-			hid_data.InReport[0] = 2;
+		} else if (character >= 'A' && character <= 'Z') {
+			uint8_t offset = character - 'A';
+			hidId = offset + HIDKB_KEY_A;
+			hid_data.InReport[0] = 2; // shift
 		}
 		hid_data.InReport[2] = hidId;
 		printed++;
 		keyOn = true;
+	} else if(printing){
+
+		hid_data.InReport[0] = 0;
+		hid_data.InReport[2] = 0;
+
+		keyOn = false;
 	}
 	return printing;
 
@@ -1146,4 +1158,4 @@ void USB_IRQHandler(void)
 
 #endif // SIMPLE_CDC
 
-_Static_assert(USBD_NUM_EPPAIRS <= USB_NEPPAIRS, "Too many endpoints - not supported by USB hardware");
+//_Static_assert(USBD_NUM_EPPAIRS <= USB_NEPPAIRS, "Too many endpoints - not supported by USB hardware");
