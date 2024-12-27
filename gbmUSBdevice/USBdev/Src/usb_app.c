@@ -30,6 +30,8 @@
 #include "usb_log.h"
 #include "usb_app.h"
 
+#include "hid_converter.h"
+
 #include "usbdev_binding.h"
 
 //uint32_t usbstat;	// temporary diags
@@ -92,9 +94,7 @@ bool printing = false;
 uint8_t printed = 0;
 bool keyOn = false;
 
-static const uint8_t TEXT[] = "What is my purpose?";
-
-
+static const uint8_t TEXT[] = "What is my purpose?\t\t\t-\n\n_+={[}]|\\?\n";
 static bool HIDupdateKB(const struct usbdevice_ *usbd)
 {
 #ifdef HID_PWR
@@ -130,27 +130,12 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 
 
 	// todo map from here
-	// https://www.usb.org/sites/default/files/documents/hut1_12v2.pdf
 
 	if (printing && !keyOn) {
 
 		uint8_t character = TEXT[printed];
-		uint8_t hidId;
-		hid_data.InReport[0] = 0;
-		if (character == ' ') {
-			hidId = 44;
-		} else if (character == '?') {
-			hidId = 56;
-			hid_data.InReport[0] = 2;
-		} else if (character >= 'a' && character <= 'z') {
-			uint8_t offset = character - 'a';
-			hidId = offset + HIDKB_KEY_A;
-		} else if (character >= 'A' && character <= 'Z') {
-			uint8_t offset = character - 'A';
-			hidId = offset + HIDKB_KEY_A;
-			hid_data.InReport[0] = 2; // shift
-		}
-		hid_data.InReport[2] = hidId;
+		charToHidReport(character, hid_data.InReport);
+
 		printed++;
 		keyOn = true;
 	} else if(printing){
