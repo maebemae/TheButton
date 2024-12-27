@@ -94,7 +94,7 @@ bool printing = false;
 uint8_t printed = 0;
 bool keyOn = false;
 
-static const uint8_t TEXT[] = "What is my purpose?\t\t\t-\n\n_+={[}]|\\?\n";
+static const uint8_t TEXT[] = "\n\t\t\tWhat is my purpose?\n";
 static bool HIDupdateKB(const struct usbdevice_ *usbd)
 {
 #ifdef HID_PWR

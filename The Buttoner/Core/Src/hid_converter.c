@@ -29,7 +29,8 @@ void charToHidReport(char character, uint8_t *report) {
 		report[2] = offset + HID_KEY_1;
 	} else {
 		switch(character) {
-		case '\n': report[2] = 0x29; break; // todo why isn't newline working?
+		case '\n':
+			report[2] = 0x28; break; // todo why isn't newline working?
 		case '\t': report[2] = 0x2b; break;
 		case ' ': report[2] = 0x2c; break;
 

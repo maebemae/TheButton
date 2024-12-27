@@ -49,7 +49,7 @@
 #endif
 #define HID_OUT_REPORT_SIZE	8u
 
-#define HID_POLLING_INTERVAL	5u	// ms
+#define HID_POLLING_INTERVAL	20u	// ms
 #define HID_DEFAULT_IDLE	(500u / 4)	// in 4 ms units
 
 #endif	// USBD_HID
