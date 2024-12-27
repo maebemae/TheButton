@@ -13,6 +13,8 @@
 #define USBD_PRINTER	0
 #define USBD_HID	1	// new, tested on U545
 
+
+
 //#define HID_PWR
 
 #else	// simple CDC
