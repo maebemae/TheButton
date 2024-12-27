@@ -43,6 +43,8 @@
 
 __IO uint32_t BspButtonState = BUTTON_RELEASED;
 
+TIM_HandleTypeDef htim2;
+
 UART_HandleTypeDef huart2;
 
 PCD_HandleTypeDef hpcd_USB_DRD_FS;
@@ -56,12 +58,33 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USB_PCD_Init(void);
+static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+volatile uint32_t count;
+
+void start_button_timer(){
+		count = htim2.Instance->CNT;
+		HAL_TIM_Base_Start_IT(&htim2);
+//	 HAL_TIM_Base_Start_IT(&htim2);
+}
+
+
+
+void end_button_timer(){
+	uint32_t currentCount = htim2.Instance->CNT;
+	HAL_TIM_Base_Stop_IT(&htim2);
+	htim2.Instance->CNT = 0;
+	hid_write_number(currentCount);
+
+}
+
+
 
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin){
 	if(GPIO_Pin == GPIO_PIN_8){
@@ -77,22 +100,24 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin){
 void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
 	if(GPIO_Pin == GPIO_PIN_8){
 		 BSP_LED_On(LED_GREEN);
+		 end_button_timer();
 	}
 	if(GPIO_Pin == GPIO_PIN_9){
 		 BSP_LED_On(LED_BLUE);
-
+		 start_button_timer();
 	}
 }
+
+
 
 
 /* USER CODE END 0 */
 
 /**
- *
   * @brief  The application entry point.
   * @retval int
   */
-int main2(void)
+int main(void)
 {
 
   /* USER CODE BEGIN 1 */
@@ -119,6 +144,7 @@ int main2(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_USB_PCD_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -135,6 +161,7 @@ int main2(void)
   /* -- Sample board code to switch on leds ---- */
   BSP_LED_On(LED_GREEN);
   BSP_LED_On(LED_BLUE);
+  USBapp_Init();
 
   /* USER CODE END BSP */
 
@@ -142,6 +169,8 @@ int main2(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  // just wait for interrupts
+	  __WFI();
 
 //    /* -- Sample board code for User push-button in interrupt mode ---- */
 //    if (BspButtonState == BUTTON_PRESSED)
@@ -199,6 +228,51 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 0;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 4294967295;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_ENABLE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+  HAL_TIM_Base_Start(&htim2);
+  /* USER CODE END TIM2_Init 2 */
+
 }
 
 /**
@@ -301,11 +375,13 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : PA8 PA9 */
   GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF2_TIM1;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

@@ -86,16 +86,22 @@ __attribute__ ((weak)) bool BtnGet(void)
 {
 	return 0;	// redefine to get button state
 }
-
-
-
+char text[255];
 
 bool lastButton = false;
 bool printing = false;
 uint8_t printed = 0;
 bool keyOn = false;
 
-static const uint8_t TEXT[] = "\n\t\t\tWhat is my purpose?\n";
+void hid_write_number(uint32_t number){
+	sprintf(text, "->%lu\n", (unsigned long) number);
+	printing = true;
+	printed = 0;
+	keyOn = false;
+
+}
+
+//static const uint8_t TEXT[] = "\n\t\t\tWhat is my purpose?\n";
 static bool HIDupdateKB(const struct usbdevice_ *usbd)
 {
 #ifdef HID_PWR
@@ -107,20 +113,20 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 //	if (change)
 //		hid_data.InReport[2] ^= HIDKB_KPADSTAR;
 
-	bool button = BtnGet();
-	bool change = false;
-	if(button != lastButton)
-	{
-		button = lastButton;
-		change = true;
-	}
-
-	if(change && !printing)
-	{
-		printing = true;
-	}
-
-	if(printed >= sizeof(TEXT))
+//	bool button = BtnGet();
+//	bool change = false;
+//	if(button != lastButton)
+////	{
+////		button = lastButton;
+////		change = true;
+////	}
+////
+//	if(change && !printing)
+//	{
+//		printing = true;
+//	}
+//
+	if(strlen(text) > 0 && printed >= strlen(text))
 	{
 		printing = false;
 		printed = 0;
@@ -134,7 +140,7 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 
 	if (printing && !keyOn) {
 
-		uint8_t character = TEXT[printed];
+		char character = text[printed];
 		charToHidReport(character, hid_data.InReport);
 
 		printed++;
@@ -149,7 +155,7 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 	return printing;
 
 #endif
-	return change;
+//	return change;
 }
 
 __attribute__ ((weak)) void LED_Set(bool on)
@@ -759,8 +765,8 @@ void DataSentHandler(const struct usbdevice_ *usbd, uint8_t epn)
 // USB descriptors =======================================================
 // start with string descriptors since they are referenced in other descriptors
 STRLANGID(sdLangID, USB_LANGID_US);
-STRINGDESC(sdVendor, u"gbm");
-STRINGDESC(sdName, u"Comp");
+STRINGDESC(sdVendor, u"Maebe.me");
+STRINGDESC(sdName, u"The Button");
 STRINGDESC(sdSerial, u"0001");
 #if USBD_MSC
 STRINGDESC(sdMSC, u"MassStorage");
@@ -775,7 +781,7 @@ STRINGDESC(sdVcom1, u"VCOM1");
 STRINGDESC(sdPrinter, u"gbmPrinter");
 #endif
 #if USBD_HID
-STRINGDESC(sdHID, u"gbmHID");
+STRINGDESC(sdHID, u"Button");
 #endif
 
 // string descriptor numbering - must match the order in string desc table

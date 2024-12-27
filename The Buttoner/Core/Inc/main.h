@@ -32,9 +32,8 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "usb_app.h"
 /* USER CODE END Includes */
-#define USBD_HID 1
-
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
