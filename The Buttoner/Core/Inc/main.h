@@ -70,14 +70,15 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 
-#define HARD_MED_LIMIT_US 5000
-#define MED_SOFT_LIMIT_US 30000
-#define SOFT_LIMIT_US 100000
+#define HARD_MED_LIMIT_US 2000
+#define MED_SOFT_LIMIT_US 10000
+#define SOFT_LIMIT_US 50000
 
-#define HARD_TEXT "FUUUUCK!"
-#define MED_TEXT "FUCK!"
-#define SOFT_TEXT "Fuck."
-#define ULTRA_SOFT_TEXT "Uhh fuck?"
+#define HARD_TEXT "FUUUUCK!\n"
+#define MED_TEXT "FUCK!\n"
+#define SOFT_TEXT "Fuck.\n"
+// the s is not interpreted and thus acts as a pause
+#define ULTRA_SOFT_TEXT "Uhhššš fuck?\n"
 
 /* USER CODE END Private defines */
 

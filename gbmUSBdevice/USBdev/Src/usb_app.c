@@ -136,7 +136,7 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 
 	if (printing && !keyOn) {
 
-		char character = text[printed];
+		char character = textPtr[printed];
 		charToHidReport(character, hid_data.InReport);
 
 		printed++;

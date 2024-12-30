@@ -88,9 +88,11 @@ void end_button_timer() {
 	if (htim2.Instance->CNT > 0) {
 		uint32_t currentCount = htim2.Instance->CNT;
 		HAL_TIM_Base_Stop_IT(&htim2);
-		hid_write_number(currentCount / 12);
+		uint32_t durationUs = currentCount / 12;
+//		hid_write_number(currentCount / 12;
+		print_message(durationUs );
+
 		htim2.Instance->CNT = 0; // clear the counter so we can't double trigger
-//		print_message(currentCount)
 	}
 }
 
