@@ -94,11 +94,13 @@ volatile bool printing = false;
 uint8_t printed = 0;
 bool keyOn = false;
 
-#define DVORAK
+//#define DVORAK
 #ifdef DVORAK
-	#define TIMER_TEXT "'E%luf;\n"
+	#define TIMER_TEXT "'E0b%08x;\n"
 #else
-	#define TIMER_TEXT "->%luus\n"
+//	#define TIMER_TEXT "->%luus\n"
+	#define TIMER_TEXT "->0x%08x\n"
+
 #endif
 
 void hid_write_number(uint32_t microSeconds){
@@ -122,7 +124,6 @@ void hid_print_text(const char* text) {
 	}
 }
 
-//static const uint8_t TEXT[] = "\n\t\t\tWhat is my purpose?\n";
 static bool HIDupdateKB(const struct usbdevice_ *usbd)
 {
 
@@ -140,7 +141,6 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 		char character = textPtr[printed];
 		charToHidReport(character, hid_data.InReport);
 
-		printed++;
 		keyOn = true;
 	} else if(printing){
 
@@ -148,6 +148,8 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 		hid_data.InReport[2] = 0;
 
 		keyOn = false;
+		printed++;
+
 	}
 	return printing;
 

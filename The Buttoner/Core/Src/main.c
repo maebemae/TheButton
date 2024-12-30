@@ -187,7 +187,8 @@ int main(void)
 	BSP_LED_On(LED_BLUE);
 	USBapp_Init();
 
-	uint32_t config = user_data_get_dword(0);
+	FLASH_Write_DWord(0x0, 0x1234DEAD4321BEEF);
+	uint32_t config = (uint32_t)FLASH_Get_DWord(0x0);
 	hid_write_number(config);
 
   /* USER CODE END BSP */
