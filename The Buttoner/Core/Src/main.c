@@ -183,13 +183,8 @@ int main(void)
   /* USER CODE BEGIN BSP */
 
 	/* -- Sample board code to switch on leds ---- */
-	BSP_LED_On(LED_GREEN);
-	BSP_LED_On(LED_BLUE);
-	USBapp_Init();
 
-	FLASH_Write_DWord(0x0, 0x1234DEAD4321BEEF);
-	uint32_t config = (uint32_t)FLASH_Get_DWord(0x0);
-	hid_write_number(config);
+	USBapp_Init();
 
   /* USER CODE END BSP */
 
