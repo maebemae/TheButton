@@ -68,7 +68,6 @@ void Error_Handler(void);
 #define BUTTON_HI_GPIO_Port GPIOA
 #define BUTTON_HI_EXTI_IRQn EXTI4_15_IRQn
 
-
 /* USER CODE BEGIN Private defines */
 
 #define HARD_MED_LIMIT_US 2000
