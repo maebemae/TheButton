@@ -87,6 +87,7 @@ __attribute__ ((weak)) bool BtnGet(void)
 	return 0;	// redefine to get button state
 }
 char text[255];
+char *textPtr;
 
 bool lastButton = false;
 volatile bool printing = false;
@@ -101,8 +102,19 @@ bool keyOn = false;
 #endif
 
 void hid_write_number(uint32_t microSeconds){
+	// this should probably be critical
 	if(!printing) {
 		sprintf(text, TIMER_TEXT, (unsigned long) microSeconds);
+		textPtr = text;
+		printing = true;
+		printed = 0;
+		keyOn = false;
+	}
+}
+
+void hid_print_text(char* text) {
+	if(!printing) {
+		textPtr = text;
 		printing = true;
 		printed = 0;
 		keyOn = false;
@@ -112,29 +124,8 @@ void hid_write_number(uint32_t microSeconds){
 //static const uint8_t TEXT[] = "\n\t\t\tWhat is my purpose?\n";
 static bool HIDupdateKB(const struct usbdevice_ *usbd)
 {
-#ifdef HID_PWR
-	bool change = (bool)hid_data.InReport[0] ^ BtnGet();
-	if (change)
-		hid_data.InReport[0] ^= 1;
-#else
-//	bool change = (bool)hid_data.InReport[2] ^ BtnGet();
-//	if (change)
-//		hid_data.InReport[2] ^= HIDKB_KPADSTAR;
 
-//	bool button = BtnGet();
-//	bool change = false;
-//	if(button != lastButton)
-////	{
-////		button = lastButton;
-////		change = true;
-////	}
-////
-//	if(change && !printing)
-//	{
-//		printing = true;
-//	}
-//
-	if(strlen(text) > 0 && printed >= strlen(text))
+	if(textPtr != NULL && strlen(textPtr) > 0 && printed >= strlen(textPtr))
 	{
 		printing = false;
 		printed = 0;
@@ -142,9 +133,6 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 		hid_data.InReport[2] = 0;
 		keyOn = false;
 	}
-
-
-	// todo map from here
 
 	if (printing && !keyOn) {
 
@@ -162,8 +150,6 @@ static bool HIDupdateKB(const struct usbdevice_ *usbd)
 	}
 	return printing;
 
-#endif
-//	return change;
 }
 
 __attribute__ ((weak)) void LED_Set(bool on)

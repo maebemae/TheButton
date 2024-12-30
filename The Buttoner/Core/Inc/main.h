@@ -58,8 +58,26 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define KEY_SWITCH_Pin GPIO_PIN_7
+#define KEY_SWITCH_GPIO_Port GPIOA
+#define BUTTON_LO_Pin GPIO_PIN_8
+#define BUTTON_LO_GPIO_Port GPIOA
+#define BUTTON_LO_EXTI_IRQn EXTI4_15_IRQn
+#define BUTTON_HI_Pin GPIO_PIN_9
+#define BUTTON_HI_GPIO_Port GPIOA
+#define BUTTON_HI_EXTI_IRQn EXTI4_15_IRQn
+
 
 /* USER CODE BEGIN Private defines */
+
+#define HARD_MED_LIMIT_US 5000
+#define MED_SOFT_LIMIT_US 30000
+#define SOFT_LIMIT_US 100000
+
+#define HARD_TEXT "FUUUUCK!"
+#define MED_TEXT "FUCK!"
+#define SOFT_TEXT "Fuck."
+#define ULTRA_SOFT_TEXT "Uhh fuck?"
 
 /* USER CODE END Private defines */
 
