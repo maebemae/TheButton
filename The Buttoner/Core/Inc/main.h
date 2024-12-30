@@ -32,8 +32,10 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "usb_app.h"
 #include <stdbool.h>
+
+#include "usb_app.h"
+#include "user_data.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

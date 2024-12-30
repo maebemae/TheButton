@@ -5,6 +5,7 @@
 "./Core/Src/syscalls.o"
 "./Core/Src/sysmem.o"
 "./Core/Src/system_stm32c0xx.o"
+"./Core/Src/user_data.o"
 "./Core/Startup/startup_stm32c071rbtx.o"
 "./Drivers/BSP/STM32C0xx_Nucleo/stm32c0xx_nucleo.o"
 "./Drivers/STM32C0xx_HAL_Driver/Src/stm32c0xx_hal.o"

@@ -112,6 +112,7 @@ void hid_write_number(uint32_t microSeconds){
 	}
 }
 
+
 void hid_print_text(const char* text) {
 	if(!printing) {
 		textPtr = text;
