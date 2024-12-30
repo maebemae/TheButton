@@ -26,7 +26,7 @@ void vcom_prompt_request(uint8_t ch);
 uint8_t vcom_process_input(uint8_t ch, uint8_t c);	// defined as weak in usb_app.c, redefine for real use
 
 void hid_write_number(uint32_t number);
-void hid_print_text(char* text);
+void hid_print_text(const char* text);
 
 
 #define PIRET_PROMPTRQ	1u

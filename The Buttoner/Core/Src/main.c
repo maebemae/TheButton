@@ -50,6 +50,9 @@ UART_HandleTypeDef huart2;
 PCD_HandleTypeDef hpcd_USB_DRD_FS;
 
 /* USER CODE BEGIN PV */
+// the funny character is not interpreted, so it acts as a pause while printing
+const char NSFW_TEXTS[][100] = {{"FUUUUCK!\n"}, {"FUCK!\n"}, {"Fuck.\n"}, {"Uhhššš fuck?\n"}};
+const char SFW_TEXTS[][100] = {{"My enemies have succeeded!\n"}, {"It is impossible to underestimate you...\n"}, {"Another great day to generate shareholder value\n"}, {"Nothing brings as much joy as reading automated emails in the morning.\n"}};
 
 /* USER CODE END PV */
 
@@ -72,16 +75,29 @@ void start_button_timer() {
 	HAL_TIM_Base_Start_IT(&htim2);
 }
 
+bool enable_nsfw(){
+	return false;
+}
+
 void print_message(uint32_t pressDurationUs) {
+	uint8_t severity;
 	if (pressDurationUs < HARD_MED_LIMIT_US) {
-		hid_print_text(HARD_TEXT);
+		severity = 0;
 	} else if (pressDurationUs < MED_SOFT_LIMIT_US) {
-		hid_print_text(MED_TEXT);
+		severity = 1;
 	} else if (pressDurationUs < SOFT_LIMIT_US) {
-		hid_print_text(SOFT_TEXT);
+		severity = 2;
 	} else {
-		hid_print_text(ULTRA_SOFT_TEXT);
+		severity = 3;
 	}
+
+	if(enable_nsfw())
+	{
+		hid_print_text(&NSFW_TEXTS[severity][0]);
+	} else {
+		hid_print_text(&SFW_TEXTS[severity][0]);
+	}
+
 }
 
 void end_button_timer() {

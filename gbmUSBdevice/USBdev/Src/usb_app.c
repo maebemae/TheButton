@@ -87,7 +87,7 @@ __attribute__ ((weak)) bool BtnGet(void)
 	return 0;	// redefine to get button state
 }
 char text[255];
-char *textPtr;
+const char *textPtr;
 
 bool lastButton = false;
 volatile bool printing = false;
@@ -112,7 +112,7 @@ void hid_write_number(uint32_t microSeconds){
 	}
 }
 
-void hid_print_text(char* text) {
+void hid_print_text(const char* text) {
 	if(!printing) {
 		textPtr = text;
 		printing = true;

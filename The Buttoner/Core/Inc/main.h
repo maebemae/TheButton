@@ -33,6 +33,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usb_app.h"
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -74,11 +75,6 @@ void Error_Handler(void);
 #define MED_SOFT_LIMIT_US 10000
 #define SOFT_LIMIT_US 50000
 
-#define HARD_TEXT "FUUUUCK!\n"
-#define MED_TEXT "FUCK!\n"
-#define SOFT_TEXT "Fuck.\n"
-// the s is not interpreted and thus acts as a pause
-#define ULTRA_SOFT_TEXT "Uhhššš fuck?\n"
 
 /* USER CODE END Private defines */
 
