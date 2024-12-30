@@ -51,7 +51,9 @@ PCD_HandleTypeDef hpcd_USB_DRD_FS;
 
 /* USER CODE BEGIN PV */
 // the funny character is not interpreted, so it acts as a pause while printing
-const char NSFW_TEXTS[][100] = {{"FUUUUCK!\n"}, {"FUCK!\n"}, {"Fuck.\n"}, {"Uhhššš fuck?\n"}};
+//const char NSFW_TEXTS[][100] = {{"FUUUUCK!\n"}, {"FUCK!\n"}, {"Fuck.\n"}, {"Uhhššš fuck?\n"}};
+const char NSFW_TEXTS[][100] = {{"AUGGHHHHHH!!! (>_<)\n"}, {"UGH! >.<\n"}, {"ugh... -_-\n"}, {"uhhššš ugh? ._.\n"}};
+
 const char SFW_TEXTS[][100] = {{"My enemies have succeeded!\n"}, {"It is impossible to underestimate you...\n"}, {"Another great day to generate shareholder value\n"}, {"Nothing brings as much joy as reading automated emails in the morning.\n"}};
 
 /* USER CODE END PV */
@@ -76,7 +78,7 @@ void start_button_timer() {
 }
 
 bool enable_nsfw(){
-	return false;
+	return true;
 }
 
 void print_message(uint32_t pressDurationUs) {
@@ -90,6 +92,8 @@ void print_message(uint32_t pressDurationUs) {
 	} else {
 		severity = 3;
 	}
+
+//	uint8_t selection = pressDurationUs %
 
 	if(enable_nsfw())
 	{
