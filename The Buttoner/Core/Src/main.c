@@ -84,7 +84,6 @@ void end_button_timer(){
 }
 
 
-
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin){
 	if(GPIO_Pin == GPIO_PIN_8){
 		 BSP_LED_Off(LED_GREEN);
