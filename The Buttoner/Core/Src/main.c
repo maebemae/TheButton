@@ -66,22 +66,21 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-volatile uint32_t count;
 
 void start_button_timer(){
-		count = htim2.Instance->CNT;
+		htim2.Instance->CNT = 0; // initial run timers seems to be running alr
 		HAL_TIM_Base_Start_IT(&htim2);
-//	 HAL_TIM_Base_Start_IT(&htim2);
 }
 
 
 
 void end_button_timer(){
-	uint32_t currentCount = htim2.Instance->CNT;
-	HAL_TIM_Base_Stop_IT(&htim2);
-	htim2.Instance->CNT = 0;
-	hid_write_number(currentCount);
-
+	if(htim2.Instance->CNT > 0) {
+		uint32_t currentCount = htim2.Instance->CNT;
+		HAL_TIM_Base_Stop_IT(&htim2);
+		hid_write_number(currentCount / 12);
+		htim2.Instance->CNT = 0; // clear the counter so we can't double trigger
+	}
 }
 
 
@@ -92,7 +91,6 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin){
 	}
 	if(GPIO_Pin == GPIO_PIN_9){
 		 BSP_LED_Off(LED_BLUE);
-
 	}
 
 }

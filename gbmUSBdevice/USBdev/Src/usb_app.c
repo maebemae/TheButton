@@ -89,16 +89,24 @@ __attribute__ ((weak)) bool BtnGet(void)
 char text[255];
 
 bool lastButton = false;
-bool printing = false;
+volatile bool printing = false;
 uint8_t printed = 0;
 bool keyOn = false;
 
-void hid_write_number(uint32_t number){
-	sprintf(text, "->%lu\n", (unsigned long) number);
-	printing = true;
-	printed = 0;
-	keyOn = false;
+#define DVORAK
+#ifdef DVORAK
+	#define TIMER_TEXT "'E%luf;\n"
+#else
+	#define TIMER_TEXT "->%luus\n"
+#endif
 
+void hid_write_number(uint32_t microSeconds){
+	if(!printing) {
+		sprintf(text, TIMER_TEXT, (unsigned long) microSeconds);
+		printing = true;
+		printed = 0;
+		keyOn = false;
+	}
 }
 
 //static const uint8_t TEXT[] = "\n\t\t\tWhat is my purpose?\n";
