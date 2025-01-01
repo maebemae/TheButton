@@ -62,8 +62,13 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define KEY_SWITCH_LED_Pin GPIO_PIN_2
+#define KEY_SWITCH_LED_GPIO_Port GPIOA
+#define USR_LED2_Pin GPIO_PIN_6
+#define USR_LED2_GPIO_Port GPIOA
 #define KEY_SWITCH_Pin GPIO_PIN_7
 #define KEY_SWITCH_GPIO_Port GPIOA
+#define KEY_SWITCH_EXTI_IRQn EXTI4_15_IRQn
 #define BUTTON_LO_Pin GPIO_PIN_8
 #define BUTTON_LO_GPIO_Port GPIOA
 #define BUTTON_LO_EXTI_IRQn EXTI4_15_IRQn

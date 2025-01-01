@@ -52,7 +52,7 @@ PCD_HandleTypeDef hpcd_USB_DRD_FS;
 //const char NSFW_TEXTS[][100] = {{"FUUUUCK!\n"}, {"FUCK!\n"}, {"Fuck.\n"}, {"Uhhššš fuck?\n"}};
 const char NSFW_TEXTS[][100] = {{"AUGGHHHHHH!!! (>_<)\n"}, {"UGH! >.<\n"}, {"ugh... -_-\n"}, {"uhhššš ugh? ._.\n"}};
 
-const char SFW_TEXTS[][100] = {{"My enemies have succeeded!\n"}, {"It is impossible to underestimate you...\n"}, {"Another great day to generate shareholder value\n"}, {"Nothing brings as much joy as reading automated emails in the morning.\n"}};
+const char SFW_TEXTS[][100] = {{"My enemies have succeeded!\n"}, {"It is impossible to underestimate you...\n"}, {"Another great day to generate shareholder value\n"}, {"I'm afraid that,...šš I am currently unable to can\n"}};
 
 /* USER CODE END PV */
 
@@ -76,7 +76,7 @@ void start_button_timer() {
 
 bool enable_nsfw(){
 
-	return true;
+	return (HAL_GPIO_ReadPin(KEY_SWITCH_GPIO_Port, KEY_SWITCH_Pin) == 0);
 }
 
 void print_message(uint32_t pressDurationUs) {
@@ -120,6 +120,14 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
 	}
 	if (GPIO_Pin == BUTTON_HI_Pin) {
 		BSP_LED_Off(LED_BLUE);
+		HAL_GPIO_WritePin(USR_LED2_GPIO_Port, USR_LED2_Pin, GPIO_PIN_RESET);
+	}
+	if (GPIO_Pin == KEY_SWITCH_Pin) {
+		  GPIO_InitTypeDef GPIO_InitStruct = {0};
+		  GPIO_InitStruct.Pin = KEY_SWITCH_LED_Pin;
+		  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+		  GPIO_InitStruct.Pull = GPIO_PULLDOWN; // cheating by using internal resistor instead of push/pull -> LED OFF
+		  HAL_GPIO_Init(KEY_SWITCH_LED_GPIO_Port, &GPIO_InitStruct);
 	}
 
 }
@@ -131,7 +139,15 @@ void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin) {
 	}
 	if (GPIO_Pin == BUTTON_HI_Pin) {
 		BSP_LED_On(LED_BLUE);
+		HAL_GPIO_WritePin(USR_LED2_GPIO_Port, USR_LED2_Pin, GPIO_PIN_SET);
 		start_button_timer();
+	}
+	if (GPIO_Pin == KEY_SWITCH_Pin) {
+		  GPIO_InitTypeDef GPIO_InitStruct = {0};
+		  GPIO_InitStruct.Pin = KEY_SWITCH_LED_Pin;
+		  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+		  GPIO_InitStruct.Pull = GPIO_PULLUP; // cheating by using internal resistor instead of push/pull
+		  HAL_GPIO_Init(KEY_SWITCH_LED_GPIO_Port, &GPIO_InitStruct);
 	}
 }
 
@@ -401,14 +417,24 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
-  /*Configure GPIO pin : KEY_SWITCH_Pin */
-  GPIO_InitStruct.Pin = KEY_SWITCH_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(KEY_SWITCH_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(USR_LED2_GPIO_Port, USR_LED2_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : BUTTON_LO_Pin BUTTON_HI_Pin */
-  GPIO_InitStruct.Pin = BUTTON_LO_Pin|BUTTON_HI_Pin;
+  /*Configure GPIO pin : KEY_SWITCH_LED_Pin */
+  GPIO_InitStruct.Pin = KEY_SWITCH_LED_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(KEY_SWITCH_LED_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USR_LED2_Pin */
+  GPIO_InitStruct.Pin = USR_LED2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(USR_LED2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : KEY_SWITCH_Pin BUTTON_LO_Pin BUTTON_HI_Pin */
+  GPIO_InitStruct.Pin = KEY_SWITCH_Pin|BUTTON_LO_Pin|BUTTON_HI_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
