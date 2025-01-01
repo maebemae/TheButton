@@ -36,6 +36,7 @@ extern "C" {
 
 #include "usb_app.h"
 #include "user_data.h"
+#include "bootloader.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

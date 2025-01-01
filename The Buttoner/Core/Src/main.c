@@ -171,6 +171,12 @@ int main(void)
   MX_FLASH_Init();
   /* USER CODE BEGIN 2 */
 
+  if((HAL_GPIO_ReadPin(BUTTON_HI_GPIO_Port, BUTTON_HI_Pin) == 0 && HAL_GPIO_ReadPin(BUTTON_LO_GPIO_Port, BUTTON_LO_Pin) == 0)){
+	  // enter bootloader
+	  JumpToBootloader();
+  }
+
+
   /* USER CODE END 2 */
 
   /* Initialize leds */
