@@ -9,7 +9,7 @@
 #ifndef SIMPLE_CDC
 
 #define USBD_MSC 0	// not supported yet
-#define USBD_CDC_CHANNELS	2
+#define USBD_CDC_CHANNELS	1
 #define USBD_PRINTER	0
 #define USBD_HID	1	// new, tested on U545
 
@@ -51,7 +51,7 @@
 #endif
 #define HID_OUT_REPORT_SIZE	8u
 
-#define HID_POLLING_INTERVAL	20u	// ms
+#define HID_POLLING_INTERVAL	5u	// ms
 #define HID_DEFAULT_IDLE	(500u / 4)	// in 4 ms units
 
 #endif	// USBD_HID

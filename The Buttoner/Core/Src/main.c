@@ -49,10 +49,10 @@ PCD_HandleTypeDef hpcd_USB_DRD_FS;
 
 /* USER CODE BEGIN PV */
 // the funny character is not interpreted, so it acts as a pause while printing
-//const char NSFW_TEXTS[][100] = {{"FUUUUCK!\n"}, {"FUCK!\n"}, {"Fuck.\n"}, {"Uhhššš fuck?\n"}};
-const char NSFW_TEXTS[][100] = {{"AUGGHHHHHH!!! (>_<)\n"}, {"UGH! >.<\n"}, {"ugh... -_-\n"}, {"uhhššš ugh? ._.\n"}};
+const char NSFW_TEXTS[][100] = {{"FUUUUCK!!\n"}, {"FUCK!\n"}, {"Fuck.\n"}, {"Uhhššš fuck?\n"}};
+//const char NSFW_TEXTS[][100] = {{"AUGGHHHHHH!!! (>_<)\n"}, {"UGH! >.<\n"}, {"ugh... -_-\n"}, {"uhhššš ugh? ._.\n"}};
 
-const char SFW_TEXTS[][100] = {{"My enemies have succeeded!\n"}, {"It is impossible to underestimate you...\n"}, {"Another great day to generate shareholder value\n"}, {"I'm afraid that,...šš I am currently unable to can\n"}};
+const char SFW_TEXTS[][100] = {{"My enemies have succeeded!\n"}, {"It is impossible to underestimate you...\n"}, {"Another great day to generate shareholder value\n"}, {"I'm afraid that...šš I am currently unable to can\n"}};
 
 /* USER CODE END PV */
 
