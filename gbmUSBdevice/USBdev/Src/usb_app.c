@@ -15,9 +15,7 @@
  * You should have received a copy of the GNU General Public License 
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 #ifndef SIMPLE_CDC
-
 #include <string.h>
 #include <stdio.h>
 
@@ -305,8 +303,7 @@ struct cdc_SerialStateNotif_  ssnotif = {
 	.wSerialState = 0
 };
 
-// forward declaration
-const struct usbdevice_ usbdev;
+
 
 // inline only to avoid not used warning
 static inline void send_serialstate_notif(uint8_t ch)
@@ -339,6 +336,11 @@ __attribute__ ((weak)) void VCP_ConnStatus(uint8_t ch, bool on)
 
 #endif	// USBD_CDC_CHANNELS
 
+// forward declaration
+const struct usbdevice_ usbdev;
+
+#if USBD_CDC_CHANNELS
+
 // enable data reception on a specified endpoint - called after received data is processed
 static void allow_rx(uint8_t epn)
 {
@@ -346,6 +348,7 @@ static void allow_rx(uint8_t epn)
 	usbdev.hwif->EnableRx(&usbdev, epn);
 	__enable_irq();
 }
+#endif
 
 #if USBD_PRINTER
 
@@ -944,8 +947,10 @@ static const struct epcfg_ outcfg[USBD_NUM_EPPAIRS] = {
 #if USBD_MSC
 	{.ifidx = IFNUM_MSC, .handler = 0},	// unused
 #endif
+#if USBD_CDC_CHANNELS
 	{.ifidx = IFNUM_CDC0_CONTROL, .handler = 0},	// unused
 	{.ifidx = IFNUM_CDC0_DATA, .handler = DataReceivedHandler},
+#endif
 #if USBD_CDC_CHANNELS > 1
 #ifndef USE_COMMON_CDC_INT_IN_EP
 	{.ifidx = IFNUM_CDC1_CONTROL, .handler = 0},	// unused
@@ -1039,11 +1044,13 @@ static const struct usbdcfg_ usbdcfg = {
 
 static struct usbdevdata_ uddata;	// device data and status
 
+#if USBD_CDC_CHANNELS
 static const struct cdc_services_ cdc_service = {
 	.SetLineCoding = 0,
 	.SetControlLineState = cdc_LineStateHandler,
 	// todo: add get status call when implementing notifications
 };
+#endif
 
 #if USBD_PRINTER
 static const struct prn_services_ prn_service = {
@@ -1072,8 +1079,10 @@ const struct usbdevice_ usbdev = {
 	.Resume_Handler = usbdev_resume,
 	.SOF_Handler = usbdev_tick,
 //	.ESOF_Handler = usbdev_notick,
+#if USBD_CDC_CHANNELS
 	.cdc_service = &cdc_service,
 	.cdc_data = cdc_data,
+#endif
 #if USBD_PRINTER
 	.prn_service = &prn_service,
 	.prn_data = &prn_data,

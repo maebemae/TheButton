@@ -121,10 +121,10 @@ struct usbdevice_ {
 	void (*Suspend_Handler)(void);
 	void (*Resume_Handler)(void);
 	void (*SOF_Handler)(void);
-#if USBD_CDC_CHANNELS
+//#if USBD_CDC_CHANNELS
 	const struct cdc_services_ *cdc_service;
 	struct cdc_data_ *cdc_data;
-#endif
+//#endif
 #if USBD_PRINTER
 	const struct prn_services_ *prn_service;
 	struct prn_data_ *prn_data;
