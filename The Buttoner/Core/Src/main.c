@@ -79,19 +79,14 @@ bool enable_nsfw(){
 	return (HAL_GPIO_ReadPin(KEY_SWITCH_GPIO_Port, KEY_SWITCH_Pin) == 0);
 }
 
-void print_message(uint32_t pressDurationUs) {
-	uint8_t severity;
-	if (pressDurationUs < HARD_MED_LIMIT_US) {
-		severity = 0;
-	} else if (pressDurationUs < MED_SOFT_LIMIT_US) {
-		severity = 1;
-	} else if (pressDurationUs < SOFT_LIMIT_US) {
-		severity = 2;
-	} else {
-		severity = 3;
-	}
+typedef enum Press_Typedef {
+	Hardest_Press = 0,
+	Hard_Press,
+	Medium_Press,
+	Soft_Press
+} Press_Typedef;
 
-//	uint8_t selection = pressDurationUs %
+void print_out(Press_Typedef severity){
 
 	if(enable_nsfw())
 	{
@@ -99,19 +94,30 @@ void print_message(uint32_t pressDurationUs) {
 	} else {
 		hid_print_text(&SFW_TEXTS[severity][0]);
 	}
+}
+
+Press_Typedef duration_to_press(uint32_t pressDurationUs) {
+	Press_Typedef severity;
+	if (pressDurationUs < HARD_MED_LIMIT_US) {
+		severity = Hardest_Press;
+	} else if (pressDurationUs < MED_SOFT_LIMIT_US) {
+		severity = Hard_Press;
+	} else if (pressDurationUs < SOFT_LIMIT_US) {
+		severity = Medium_Press;
+	} else {
+		severity = Soft_Press;
+	}
+	return severity;
+
 
 }
 
-void end_button_timer() {
-	if (htim2.Instance->CNT > 0) {
+uint32_t end_button_timer() {
 		uint32_t currentCount = htim2.Instance->CNT;
 		HAL_TIM_Base_Stop_IT(&htim2);
 		uint32_t durationUs = currentCount / 12;
-//		hid_write_number(currentCount / 12;
-		print_message(durationUs );
-
 		htim2.Instance->CNT = 0; // clear the counter so we can't double trigger
-	}
+		return durationUs;
 }
 
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
@@ -121,6 +127,11 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == BUTTON_HI_Pin) {
 		BSP_LED_Off(LED_BLUE);
 		HAL_GPIO_WritePin(USR_LED2_GPIO_Port, USR_LED2_Pin, GPIO_PIN_RESET);
+		uint32_t pressDurationUs = end_button_timer();
+		if(pressDurationUs > 0){
+			// The button wasn't pressed hard enough to trigger the lower switch, thus consider this the lowest severity
+			print_out(Soft_Press);
+		}
 	}
 	if (GPIO_Pin == KEY_SWITCH_Pin) {
 		  GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -135,7 +146,12 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
 void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == BUTTON_LO_Pin) {
 		BSP_LED_On(LED_GREEN);
-		end_button_timer();
+		uint32_t pressDurationUs = end_button_timer();
+		if(pressDurationUs > 0)
+		{
+			Press_Typedef press = duration_to_press(pressDurationUs);
+			print_out(press);
+		}
 	}
 	if (GPIO_Pin == BUTTON_HI_Pin) {
 		BSP_LED_On(LED_BLUE);
