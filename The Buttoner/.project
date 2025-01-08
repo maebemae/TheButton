@@ -33,12 +33,12 @@
 		<link>
 			<name>STM32_Inc</name>
 			<type>2</type>
-			<location>/Users/mae/STM32CubeIDE/workspace_1.17.0/STM32_Inc</location>
+			<location>/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/STM32_Inc</location>
 		</link>
 		<link>
 			<name>gbmUSBdevice</name>
 			<type>2</type>
-			<location>/Users/mae/STM32CubeIDE/workspace_1.17.0/gbmUSBdevice</location>
+			<location>/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice</location>
 		</link>
 	</linkedResources>
 </projectDescription>
