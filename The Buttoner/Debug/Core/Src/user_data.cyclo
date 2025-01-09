@@ -1,0 +1,2 @@
+../Core/Src/user_data.c:18:10:FLASH_Get_DWord	2
+../Core/Src/user_data.c:26:22:FLASH_Write_DWord	6

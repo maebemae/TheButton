@@ -1,0 +1,15 @@
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:107:13:USBhw_Init	3
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:122:13:USBhw_DeInit	2
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:147:17:USBhw_GetInEPSize	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:214:13:USBhw_IsEPStalled	2
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:229:13:USBhw_EnableCtlSetup	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:243:13:reset_in_endpoints	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:181:13:SetEPRState.isra	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:312:13:USBhw_ResetCfg	2
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:195:13:USBhw_SetEPState	2
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:203:13:USBhw_SetEPStall	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:224:13:USBhw_EnableRx	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:362:13:USBhw_StartTx	10
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:410:6:USBhw_IRQHandler	24
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:208:13:USBhw_ClrEPStall	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_hw_g0.c:279:13:USBhw_SetCfg	8

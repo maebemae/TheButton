@@ -1,0 +1,10 @@
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_dev.c:33:30:USBclass_ClearEPStall	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_dev.c:37:6:USBdev_SetRxBuf	2
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_dev.c:43:6:USBdev_SendData	6
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_dev.c:60:6:USBdev_SendStatus	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_dev.c:67:6:USBdev_SendStatusOK	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_dev.c:72:6:USBdev_CtrlError	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_dev.c:136:13:USBdev_HandleRequest	37
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_dev.c:236:6:USBdev_InEPHandler	4
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_dev.c:262:6:USBdev_OutEPHandler	10
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_dev.c:319:27:USBdev_GetEPDescriptor	4

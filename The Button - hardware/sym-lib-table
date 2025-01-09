@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "USB Molex")(type "KiCad")(uri "${KIPRJMOD}/ul_2137160001/KiCADv6/2024-12-25_03-12-47.kicad_sym")(options "")(descr ""))
+)
