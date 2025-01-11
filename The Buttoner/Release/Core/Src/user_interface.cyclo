@@ -1,0 +1,6 @@
+../Core/Src/user_interface.c:24:6:print_current_messages	1
+../Core/Src/user_interface.c:27:6:print_severity_prompt	1
+../Core/Src/user_interface.c:31:9:handle_main_menu	4
+../Core/Src/user_interface.c:56:9:handle_messages	1
+../Core/Src/user_interface.c:63:9:handle_restore_factory	1
+../Core/Src/user_interface.c:69:9:vcom_process_input	6
