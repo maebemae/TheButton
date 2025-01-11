@@ -32,8 +32,10 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdbool.h>
 
+
+#include <stdbool.h>
+#include "user_interface.h"
 #include "usb_app.h"
 #include "user_data.h"
 #include "bootloader.h"
@@ -62,6 +64,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+
+
 #define KEY_SWITCH_LED_Pin GPIO_PIN_2
 #define KEY_SWITCH_LED_GPIO_Port GPIOA
 #define USR_LED2_Pin GPIO_PIN_6

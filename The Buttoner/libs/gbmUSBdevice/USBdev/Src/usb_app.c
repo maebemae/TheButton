@@ -77,6 +77,10 @@ static struct cdc_data_ cdc_data[USBD_CDC_CHANNELS] = {
 static struct prn_data_ prn_data;
 #endif
 
+// forward declaration
+const struct usbdevice_ usbdev;
+
+
 #if USBD_HID
 static struct hid_data_ hid_data;
 
@@ -337,7 +341,6 @@ __attribute__ ((weak)) void VCP_ConnStatus(uint8_t ch, bool on)
 #endif	// USBD_CDC_CHANNELS
 
 // forward declaration
-const struct usbdevice_ usbdev;
 
 #if USBD_CDC_CHANNELS
 

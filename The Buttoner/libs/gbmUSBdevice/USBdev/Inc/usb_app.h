@@ -10,6 +10,8 @@
 
 #include <stdint.h>
 
+#include "user_menu.h"
+
 extern volatile uint32_t usbdev_msec;
 
 void usbdev_tick(void);
