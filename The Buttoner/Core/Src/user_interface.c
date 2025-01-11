@@ -70,7 +70,8 @@ uint8_t vcom_process_input(uint8_t ch, uint8_t c) {
 	if (currentChar >= MAX_MESSAGE_LEN){
 		memset(&message, 0, MAX_MESSAGE_LEN);
 		currentChar = 0;
-		vcom_putstring(ch, (const char*) sprintf(MESSAGE_TOO_LONG, MAX_MESSAGE_LEN));
+
+		vcom_putstring(ch, MESSAGE_TOO_LONG);
 		return 0;
 	}
 	if(c != '\n') {
