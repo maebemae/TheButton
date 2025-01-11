@@ -36,11 +36,11 @@ uint8_t handle_main_menu(uint8_t ch) {
 
 	char c = message[0];
 	switch(c) {
-	case '0':
+	case '1':
 		print_current_messages(ch);
 		current_menu = MENU_MAIN;
 		return 0;
-	case '1':
+	case '2':
 		current_menu = MENU_MESSAGES;
 		print_current_messages(ch);
 		print_severity_prompt(ch);
@@ -48,13 +48,19 @@ uint8_t handle_main_menu(uint8_t ch) {
 	case '9':
 		// restore factory settings
 	}
+	vcom_putchar(ch, '[');
+	if(c == '\n' || c == '\r') {
+		vcom_putstring(ch, "whitespace");
+	} else {
+		vcom_putchar(ch, c);
 
-	vcom_putstring(ch, "Unknown Command, please try again\r\n");
+	}
+	vcom_putstring(ch, "] -> Unknown Command, please try again\r\n");
 	return 1;
 }
 
 uint8_t handle_messages(uint8_t ch, uint8_t c){
-	vcom_putstring(ch, "not yet");
+	vcom_putstring(ch, "not yet\r\n");
 	current_menu = MENU_MAIN;
 	return 0;
 
@@ -84,13 +90,19 @@ uint8_t vcom_process_input(uint8_t ch, uint8_t c) {
 
 	switch(current_menu){
 		case MENU_MAIN:
-			return handle_main_menu(ch); break;
+			handle_main_menu(ch); break;
 		case MENU_MESSAGES:
-			return handle_messages(ch, c); break;
+			handle_messages(ch, c); break;
 		case MENU_RESTORE_FACTORY:
-			return handle_restore_factory(ch); break;
+			handle_restore_factory(ch); break;
+		default:
+			vcom_putstring(ch, "Unexpected state, please unplug and plug The Button back in\r\n");
+			break;
 	}
-	vcom_putstring(ch, "Unexpected state, please unplug and plug The Button back in\r\n");
+
+	memset(&message, 0, MAX_MESSAGE_LEN);
+	currentChar = 0;
+
 	return 0; // 1 == prompt requested
 }
 
