@@ -14,7 +14,6 @@
 #include "user_menu.h"
 
 
-#define MAX_MESSAGE_LEN 255
-
+#include "messages.h"
 
 #endif /* INC_USER_INTERFACE_H_ */

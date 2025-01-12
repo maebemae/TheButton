@@ -43,16 +43,18 @@
 
 __IO uint32_t BspButtonState = BUTTON_RELEASED;
 
+CRC_HandleTypeDef hcrc;
+
 TIM_HandleTypeDef htim2;
 
 PCD_HandleTypeDef hpcd_USB_DRD_FS;
 
 /* USER CODE BEGIN PV */
 // the funny character is not interpreted, so it acts as a pause while printing
-const char NSFW_TEXTS[][100] = {{"FUUUUCK!!\n"}, {"FUCK!\n"}, {"Fuck.\n"}, {"Uhhššš fuck?\n"}};
+//const char NSFW_TEXTS[][100] = {{"FUUUUCK!!\n"}, {"FUCK!\n"}, {"Fuck.\n"}, {"Uhhššš fuck?\n"}};
 //const char NSFW_TEXTS[][100] = {{"AUGGHHHHHH!!! (>_<)\n"}, {"UGH! >.<\n"}, {"ugh... -_-\n"}, {"uhhššš ugh? ._.\n"}};
 
-const char SFW_TEXTS[][100] = {{"My enemies have succeeded!\n"}, {"It is impossible to underestimate you...\n"}, {"Another great day to generate shareholder value\n"}, {"I'm afraid that...šš I am currently unable to can\n"}};
+//const char SFW_TEXTS[][100] = {{"My enemies have succeeded!\n"}, {"It is impossible to underestimate you...\n"}, {"Another great day to generate shareholder value\n"}, {"I'm afraid that...šš I am currently unable to can\n"}};
 
 /* USER CODE END PV */
 
@@ -62,6 +64,7 @@ static void MX_GPIO_Init(void);
 static void MX_USB_PCD_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_FLASH_Init(void);
+static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -90,9 +93,11 @@ void print_out(Press_Typedef severity){
 
 	if(enable_nsfw())
 	{
-		hid_print_text(&NSFW_TEXTS[severity][0]);
+//		hid_print_text(&NSFW_TEXTS[severity][0]);
+		hid_print_text((const char*)messages_get_default()->bank_a[severity]);
 	} else {
-		hid_print_text(&SFW_TEXTS[severity][0]);
+//		hid_print_text(&SFW_TEXTS[severity][0]);
+		hid_print_text((const char*)messages_get_default()->bank_b[severity]);
 	}
 }
 
@@ -201,6 +206,7 @@ int main(void)
   MX_USB_PCD_Init();
   MX_TIM2_Init();
   MX_FLASH_Init();
+  MX_CRC_Init();
   /* USER CODE BEGIN 2 */
 
   if((HAL_GPIO_ReadPin(BUTTON_HI_GPIO_Port, BUTTON_HI_Pin) == 0 && HAL_GPIO_ReadPin(BUTTON_LO_GPIO_Port, BUTTON_LO_Pin) == 0)){
@@ -288,6 +294,37 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief CRC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CRC_Init(void)
+{
+
+  /* USER CODE BEGIN CRC_Init 0 */
+
+  /* USER CODE END CRC_Init 0 */
+
+  /* USER CODE BEGIN CRC_Init 1 */
+
+  /* USER CODE END CRC_Init 1 */
+  hcrc.Instance = CRC;
+  hcrc.Init.DefaultPolynomialUse = DEFAULT_POLYNOMIAL_ENABLE;
+  hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_ENABLE;
+  hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_NONE;
+  hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
+  hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_BYTES;
+  if (HAL_CRC_Init(&hcrc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CRC_Init 2 */
+  // todo actually wire in the crc
+  /* USER CODE END CRC_Init 2 */
+
 }
 
 /**

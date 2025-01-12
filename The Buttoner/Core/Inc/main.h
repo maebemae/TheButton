@@ -39,6 +39,7 @@ extern "C" {
 #include "usb_app.h"
 #include "user_data.h"
 #include "bootloader.h"
+#include "messages.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -64,8 +65,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-
-
 #define KEY_SWITCH_LED_Pin GPIO_PIN_2
 #define KEY_SWITCH_LED_GPIO_Port GPIOA
 #define USR_LED2_Pin GPIO_PIN_6
