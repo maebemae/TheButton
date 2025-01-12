@@ -1,7 +1,7 @@
 ../Core/Inc/user_data.h:32:13:FLASH_print_update	1
-../Core/Src/user_interface.c:26:6:print_current_messages	3
-../Core/Src/user_interface.c:45:6:print_severity_prompt	1
-../Core/Src/user_interface.c:48:9:handle_main_menu	6
-../Core/Src/user_interface.c:79:9:handle_messages	1
-../Core/Src/user_interface.c:87:9:handle_restore_factory	1
-../Core/Src/user_interface.c:93:9:vcom_process_input	6
+../Core/Src/user_interface.c:27:6:print_current_messages	3
+../Core/Src/user_interface.c:45:9:handle_main_menu	6
+../Core/Src/user_interface.c:79:6:handle_choose_message	7
+../Core/Src/user_interface.c:119:6:handle_edit_message	3
+../Core/Src/user_interface.c:138:9:handle_restore_factory	1
+../Core/Src/user_interface.c:150:9:vcom_process_input	7

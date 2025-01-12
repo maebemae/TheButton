@@ -40,6 +40,8 @@ typedef struct Button_Messages {
 
 
 Button_Messages* messages_get_current();
+Button_Messages* messages_get_default();
+
 
 static_assert(sizeof(Button_Messages) <= 2048, "Button_Message exceeds Flash Page Size page size");
 
