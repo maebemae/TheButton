@@ -11,7 +11,6 @@ typedef enum Current_MenuTypedef {
 	MENU_MAIN,
 	MENU_CHOOSE_MESSAGE_TO_EDIT,
 	MENU_EDITING_MESSAGE,
-	MENU_RESTORE_FACTORY,
 } Current_MenuTypedef;
 
 Current_MenuTypedef current_menu = MENU_MAIN;
@@ -42,6 +41,14 @@ void print_current_messages(uint8_t ch) {
 	vcom_putchar(ch, '\n');
 }
 
+void handle_restore_factory(uint8_t ch) {
+	memcpy(messages_get_current(), messages_get_default(),
+			sizeof(Button_Messages));
+
+	vcom_putstring(ch,
+			"Loaded factory default messages, you can now edit them, or write to flash\r\n");
+}
+
 uint8_t handle_main_menu(uint8_t ch) {
 	if (currentChar < 1) {
 		vcom_putstring(ch, "Unknown Command, please try again\r\n");
@@ -54,24 +61,30 @@ uint8_t handle_main_menu(uint8_t ch) {
 		print_current_messages(ch);
 		vcom_putstring(ch, SIGNON0);
 		current_menu = MENU_MAIN;
-		return 0;
+		return 1;
 	case '2':
 		vcom_putstring(ch,
-				"\r\nYour messages will be updated immediately for this session, but you will need to write them to flash to persist them.\r\n");
+				"\r\nYour messages will be updated immediately for this session, but will be persisted only after you save changes\r\n");
 		print_current_messages(ch);
-		vcom_putstring(ch,
-				"\r\n\t0: Back to main menu\r\n\t1: Write changes to flash\r\n\t[message]: Edit the message, e.g. B2\r\n\r\n");
+		vcom_putstring(ch, "\r\n\tEnter the message id you want to edit, e.g. B2, or\r\n");
+		vcom_putstring(ch, "\t0: Back to main menu\r\n");
+		vcom_putstring(ch, "\t1: Save changes\r\n");
 		current_menu = MENU_CHOOSE_MESSAGE_TO_EDIT;
 		return 1;
 	case '9':
 		// restore factory settings
-		current_menu = MENU_RESTORE_FACTORY;
+		handle_restore_factory(ch);
+		message[0] = '2'; // navigate back to messages
+		handle_main_menu(ch);
 		return 1;
 
 	}
 
-	sprintf(message_buffer, "[%s] -> Unknown command, please try again\r\n",
-			c == '\n' ? "whitespace" : c);
+
+	sprintf(message_buffer, "[%c] -> Unknown command, please try again\r\n",
+			c == '\n' ? ' ' : c);
+	vcom_putstring(ch, message_buffer);
+	vcom_putstring(ch, SIGNON0);
 
 	return 1;
 }
@@ -135,46 +148,31 @@ void handle_edit_message(uint8_t ch) {
 
 }
 
-uint8_t handle_restore_factory(uint8_t ch) {
-//	memcpy(messages_get_current(), messages_get_default(),
-//			sizeof(Button_Messages));
 
-	vcom_putstring(ch,
-			"Loaded factory default messages, you can now edit them, or write to flash");
-	message[0] = '2'; // navigate back to messages
-	handle_main_menu(ch);
-	return 0;
-}
 
 // callback for each character received from
 uint8_t vcom_process_input(uint8_t ch, uint8_t c) {
 	if (currentChar >= MAX_MESSAGE_LEN) {
 		memset(&message, 0, MAX_MESSAGE_LEN);
 		currentChar = 0;
-
 		vcom_putstring(ch, MESSAGE_TOO_LONG);
 		return 0;
 	}
 	message[currentChar++] = c;
 	if (c != '\n') {
 		// build up the message char by char
-		return 1;
+		return 0;
 	}
 
 	switch (current_menu) {
 	case MENU_MAIN:
 		handle_main_menu(ch);
 		break;
-
 	case MENU_CHOOSE_MESSAGE_TO_EDIT:
 		handle_choose_message(ch);
 		break;
 	case MENU_EDITING_MESSAGE:
 		handle_edit_message(ch);
-		break;
-
-	case MENU_RESTORE_FACTORY:
-		handle_restore_factory(ch);
 		break;
 	default:
 		vcom_putstring(ch,
@@ -185,6 +183,6 @@ uint8_t vcom_process_input(uint8_t ch, uint8_t c) {
 	memset(&message, 0, MAX_MESSAGE_LEN);
 	currentChar = 0;
 
-	return 0; // 1 == prompt requested
+	return 1; // 1 == prompt requested
 }
 
