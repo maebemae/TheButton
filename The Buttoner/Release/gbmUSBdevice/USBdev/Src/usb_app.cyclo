@@ -29,3 +29,4 @@
 /Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_app.c:1100:6:USBapp_Init	1
 /Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_app.c:1129:6:USBapp_DeInit	1
 /Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_app.c:1155:6:USB_DRD_FS_IRQHandler	1
+/Users/mae/STM32CubeIDE/workspace_1.17.0/The Buttoner/libs/gbmUSBdevice/USBdev/Src/usb_app.c:1162:6:FLASH_print_update	1

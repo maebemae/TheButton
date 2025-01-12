@@ -1159,4 +1159,8 @@ void USB_IRQHandler(void)
 
 #endif // SIMPLE_CDC
 
+void FLASH_print_update(const char* message){
+	vcom_putstring(0, message);
+}
+
 //_Static_assert(USBD_NUM_EPPAIRS <= USB_NEPPAIRS, "Too many endpoints - not supported by USB hardware");

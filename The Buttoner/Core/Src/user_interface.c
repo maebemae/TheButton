@@ -21,11 +21,30 @@ char message[MAX_MESSAGE_LEN];
 uint16_t currentChar = 0;
 
 
+
+
 void print_current_messages(uint8_t ch){
-	vcom_putstring(ch, "Here would be the messages\r\n");
+	vcom_putstring(ch, "NSFW Messages:\r\n");
+	for(uint8_t i = 0; i < 4; i++){
+		vcom_putchar(ch, '\t');
+		vcom_putchar(ch, i + '0');
+		vcom_putstring(ch, ": ");
+		vcom_putstring(ch, (const char*)messages_get_default()->bank_a[i]);
+		vcom_putchar(ch, '\r');
+		vcom_putchar(ch, '\n');
+	}
+	vcom_putstring(ch, "SFW Messages:\r\n");
+	for(uint8_t i = 0; i < 4; i++){
+		vcom_putchar(ch, '\t');
+		vcom_putchar(ch, i + '0');
+		vcom_putstring(ch, ": ");
+		vcom_putstring(ch, (const char*)messages_get_default()->bank_b[i]);
+		vcom_putchar(ch, '\r');
+		vcom_putchar(ch, '\n');
+	}
 }
 void print_severity_prompt(uint8_t ch){
-
+	FLASH_write_user_messages(messages_get_default());
 }
 
 uint8_t handle_main_menu(uint8_t ch) {
