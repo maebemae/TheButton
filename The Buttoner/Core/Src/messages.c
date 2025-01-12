@@ -26,11 +26,9 @@ Button_Messages* messages_get_current(){
 	if(!initialized){
 		FLASH_get_user_data((uint64_t*) &current_messages, sizeof(Button_Messages));
 		initialized = true;
-		FLASH_print_update("[DEBUG] Loaded user message from flash\r\n");
 	}
 	if(!current_messages.status & MSG_STATUS_MASK_OK){
 		 memcpy(&current_messages, &default_messages, sizeof(Button_Messages));
-		 FLASH_print_update("[DEBUG] user message invalid, loading factory\r\n");
 	}
 	 return &current_messages;
 
