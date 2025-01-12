@@ -6,6 +6,12 @@ This project aims to solve a key issue of the everyday programmer - how to safel
 
 [Youtube Video](https://www.youtube.com/shorts/mlwx9P0IeXQ) showing the button in action
 
+# Using the configurator
+
+The button will open a com port on your machine. To configure, simply connect to it and follow the instructions.
+If you have chrome, you can navigate to https://www.serialterminal.com/index.html
+Or else you can use screen, minicom, or any other com 
+
 # Flashing the firmware
 ## Using USB DFU
 

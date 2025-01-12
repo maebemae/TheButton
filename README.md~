@@ -23,6 +23,10 @@ This project aims to solve a key issue of the everyday programmer - how to safel
 
 I've selected the STM32C071 as it has crystalless USB, is affordable with sufficient Flash, RAM and GPIO for potential extensions. It also has affordable dev kit [STM32 nucleo-c071rb](https://www.st.com/en/evaluation-tools/nucleo-c071rb.html) at $10 with USB-C.
 
+Designed with Kicad, can be found under /pcb
+
+The schematic and gerbers can be found under /pcb/v<version>, e.g. /pcb/v1
+
 # Firmware
 
 The project is built with [STM32CubeIde](https://www.st.com/en/development-tools/stsw-stm32080.html)
