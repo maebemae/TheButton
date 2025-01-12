@@ -29,22 +29,20 @@ void print_current_messages(uint8_t ch){
 		vcom_putchar(ch, '\t');
 		vcom_putchar(ch, i + '0');
 		vcom_putstring(ch, ": ");
-		vcom_putstring(ch, (const char*)messages_get_default()->bank_a[i]);
-		vcom_putchar(ch, '\r');
-		vcom_putchar(ch, '\n');
+		vcom_putstring(ch, (const char*)messages_get_current()->bank_a[i]);
+
 	}
-	vcom_putstring(ch, "SFW Messages:\r\n");
+	vcom_putstring(ch, "\r\nSFW Messages:\r\n");
 	for(uint8_t i = 0; i < 4; i++){
 		vcom_putchar(ch, '\t');
 		vcom_putchar(ch, i + '0');
 		vcom_putstring(ch, ": ");
-		vcom_putstring(ch, (const char*)messages_get_default()->bank_b[i]);
-		vcom_putchar(ch, '\r');
-		vcom_putchar(ch, '\n');
+		vcom_putstring(ch, (const char*)messages_get_current()->bank_b[i]);
 	}
+	vcom_putchar(ch, '\r');
+	vcom_putchar(ch, '\n');
 }
 void print_severity_prompt(uint8_t ch){
-	FLASH_write_user_messages(messages_get_default());
 }
 
 uint8_t handle_main_menu(uint8_t ch) {
@@ -79,7 +77,8 @@ uint8_t handle_main_menu(uint8_t ch) {
 }
 
 uint8_t handle_messages(uint8_t ch, uint8_t c){
-	vcom_putstring(ch, "not yet\r\n");
+	strcpy(messages_get_current()->bank_a[0], message);
+	FLASH_write_user_messages((uint64_t*) messages_get_current());
 	current_menu = MENU_MAIN;
 	return 0;
 
@@ -99,13 +98,11 @@ uint8_t vcom_process_input(uint8_t ch, uint8_t c) {
 		vcom_putstring(ch, MESSAGE_TOO_LONG);
 		return 0;
 	}
+	message[currentChar++] = c;
 	if(c != '\n') {
-		message[currentChar++] = c;
+		// build up the message char by char
 		return 1;
 	}
-
-	// newline, process the message
-
 
 	switch(current_menu){
 		case MENU_MAIN:

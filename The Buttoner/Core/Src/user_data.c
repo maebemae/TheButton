@@ -13,11 +13,11 @@
 
 // This actually accesses data from the flash
 // flash operates on dwords, so might as wel
-const volatile Button_Messages *userConfig =
-		(const volatile Button_Messages*) MEMORY_BANK_2;
+const volatile uint64_t *userConfig =
+		(const volatile uint64_t*) MEMORY_BANK_2;
 
-Button_Messages* FLASH_get_user_messages() {
-	return userConfig;
+void FLASH_get_user_data(uint64_t* target, uint16_t len) {
+	memcpy(target, userConfig, len);
 }
 
 
@@ -34,7 +34,7 @@ Flash_Status_TypeDef erase_user_config() {
 	return FLASH_OK;
 }
 
-bool FLASH_write_user_messages(Button_Messages* messages){
+bool FLASH_write_user_messages(uint64_t* messages){
 	FLASH_print_update("--- DO NOT DISCONNECT POWER - THIS WILL LEAD TO DATA LOSS ---\r\n");
 	if(HAL_FLASH_Unlock() != HAL_OK) {
 		// handle can't unlock

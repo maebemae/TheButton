@@ -94,10 +94,10 @@ void print_out(Press_Typedef severity){
 	if(enable_nsfw())
 	{
 //		hid_print_text(&NSFW_TEXTS[severity][0]);
-		hid_print_text((const char*)messages_get_default()->bank_a[severity]);
+		hid_print_text((const char*)messages_get_current()->bank_a[severity]);
 	} else {
 //		hid_print_text(&SFW_TEXTS[severity][0]);
-		hid_print_text((const char*)messages_get_default()->bank_b[severity]);
+		hid_print_text((const char*)messages_get_current()->bank_b[severity]);
 	}
 }
 

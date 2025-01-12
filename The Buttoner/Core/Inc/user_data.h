@@ -25,8 +25,8 @@ typedef enum
 
 
 
-Button_Messages* FLASH_get_data_messages();
-bool FLASH_write_user_messages(Button_Messages* messages);
+void FLASH_get_user_data(uint64_t* target, uint16_t len);
+bool FLASH_write_user_messages(uint64_t* messages);
 
 // override to have a printout of what's happening
 __weak void FLASH_print_update(char* message) {}
