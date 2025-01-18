@@ -16,11 +16,9 @@
 
 #include "user_data.h"
 
-#define MSG_STATUS_BIT_OK 0
-#define MSG_STATUS_BIT_VALID_CRC 1
+// arbitrary pattern which will not match if flash is cleared to 0xFFFF, or typedef is initialized to 0x0000
+#define MSG_STATUS_VALID 0b01101010
 
-#define MSG_STATUS_MASK_OK 		  1 << MSG_STATUS_BIT_OK
-#define MSG_STATUS_MASK_VALID_CRC 1 << MSG_STATUS_BIT_VALID_CRC
 
 #define MAX_MESSAGE_LEN 255
 
@@ -35,7 +33,7 @@ typedef struct Button_Messages {
 	uint8_t status;
 	uint8_t bank_a[4][MAX_MESSAGE_LEN];
 	uint8_t bank_b[4][MAX_MESSAGE_LEN];
-	uint8_t crc;
+	uint8_t checksum;
 } Button_Messages;
 
 

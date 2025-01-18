@@ -9,6 +9,7 @@
 #define INC_USER_INTERFACE_H_
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include "usb_app.h"
 #include "user_menu.h"

@@ -22,6 +22,7 @@ char selectedBank;
 uint8_t selectedMessage;
 
 char message_buffer[100];
+bool local_echo = true;
 
 void print_current_messages(uint8_t ch) {
 	vcom_putstring(ch, "\r\nNSFW Messages:\r\n");
@@ -29,6 +30,7 @@ void print_current_messages(uint8_t ch) {
 		sprintf(message_buffer, "\t A%u: ", i);
 		vcom_putstring(ch, message_buffer);
 		vcom_putstring(ch, (const char*) messages_get_current()->bank_a[i]);
+		vcom_putchar(ch, '\r');// for terminals to actually reset to beginning
 
 	}
 	vcom_putstring(ch, "\r\nSFW Messages:\r\n");
@@ -36,6 +38,7 @@ void print_current_messages(uint8_t ch) {
 		sprintf(message_buffer, "\t B%u: ", i);
 		vcom_putstring(ch, message_buffer);
 		vcom_putstring(ch, (const char*) messages_get_current()->bank_b[i]);
+		vcom_putchar(ch, '\r');// for terminals to actually reset to beginning
 	}
 	vcom_putchar(ch, '\r');
 	vcom_putchar(ch, '\n');
@@ -159,9 +162,17 @@ uint8_t vcom_process_input(uint8_t ch, uint8_t c) {
 		return 0;
 	}
 	message[currentChar++] = c;
-	if (c != '\n') {
+	// it seems that linux terminals like screen and tio sends \r rather than \n
+	if (c != '\n' && c != '\r') {
 		// build up the message char by char
+		if(local_echo) {
+			vcom_putchar(ch, c);
+		}
 		return 0;
+	}
+	if(c == '\r'){
+		// newline as we'll be processing the input and don't want to overwrite the current line
+		vcom_putchar(ch, '\n');
 	}
 
 	switch (current_menu) {
