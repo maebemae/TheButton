@@ -76,7 +76,7 @@
 			(mirror no)
 			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "gerbersv4")
+			(outputdirectory "gerbersv4/")
 		)
 	)
 	(net 0 "")
@@ -339,7 +339,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor handsolder")
 		(property "Reference" "C3"
-			(at 0 0 90)
+			(at 2.75 2.75 90)
 			(layer "F.SilkS")
 			(uuid "865cba21-361b-43ae-a33b-0fe504c69a35")
 			(effects
@@ -3654,7 +3654,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor handsolder")
 		(property "Reference" "C6"
-			(at 0 0 90)
+			(at 2.75 1.25 90)
 			(layer "F.SilkS")
 			(uuid "c13dbf31-df7a-4095-8150-fa6e6d72def6")
 			(effects
@@ -6932,7 +6932,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor handsolder")
 		(property "Reference" "C7"
-			(at 0 0 -90)
+			(at 2.75 2 -90)
 			(layer "F.SilkS")
 			(uuid "26cafdbc-7827-489c-9623-0373639ffc1e")
 			(effects
@@ -7145,7 +7145,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor handsolder")
 		(property "Reference" "C4"
-			(at 0 0 90)
+			(at 2.75 3.5 90)
 			(layer "F.SilkS")
 			(uuid "2d09a03a-c3ba-477a-a9fb-0d093489bca6")
 			(effects
@@ -9458,7 +9458,7 @@
 		)
 	)
 	(gr_text "BOOT\n"
-		(at 195.5 85.5 0)
+		(at 193.75 84.75 0)
 		(layer "F.SilkS")
 		(uuid "be51834a-defa-46f6-908f-099b4a0895ed")
 		(effects
@@ -9961,7 +9961,7 @@
 		(uuid "96d0f243-216c-4ef4-acc0-5bd34a899caa")
 	)
 	(via
-		(at 197 85)
+		(at 198.25 84.75)
 		(size 0.6)
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
