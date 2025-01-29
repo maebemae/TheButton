@@ -4,4 +4,4 @@
 ../Core/Src/user_interface.c:55:9:handle_main_menu	7
 ../Core/Src/user_interface.c:95:6:handle_choose_message	9
 ../Core/Src/user_interface.c:135:6:handle_edit_message	3
-../Core/Src/user_interface.c:157:9:vcom_process_input	10
+../Core/Src/user_interface.c:157:9:vcom_process_input	9

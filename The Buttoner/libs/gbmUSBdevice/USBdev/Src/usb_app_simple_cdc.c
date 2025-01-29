@@ -37,7 +37,7 @@ static const struct cfgdesc_cdc_ ConfigDesc;
 
 #define SIGNON_DELAY	50u
 #define SIGNON0	"\r\nVCOM ready\r\n"
-#define PROMPT0	">"
+#define PROMPT0	"3>"
 
 #define TX_TOUT	2u	// Tx timeout when buffer not empty in ms
 

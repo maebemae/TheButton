@@ -161,18 +161,18 @@ uint8_t vcom_process_input(uint8_t ch, uint8_t c) {
 		vcom_putstring(ch, MESSAGE_TOO_LONG);
 		return 0;
 	}
-	message[currentChar++] = c;
 	// it seems that linux terminals like screen and tio sends \r rather than \n
-	if (c != '\n' && c != '\r') {
+	if (c == '\r')
+	{
+		c = '\n';
+	}
+	message[currentChar++] = c;
+	if (c != '\n') {
 		// build up the message char by char
 		if(local_echo) {
 			vcom_putchar(ch, c);
 		}
 		return 0;
-	}
-	if(c == '\r'){
-		// newline as we'll be processing the input and don't want to overwrite the current line
-		vcom_putchar(ch, '\n');
 	}
 
 	switch (current_menu) {

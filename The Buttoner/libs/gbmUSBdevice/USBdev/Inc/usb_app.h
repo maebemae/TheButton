@@ -25,6 +25,10 @@ void vcom_putchar(uint8_t ch, char c);
 void vcom_putstring(uint8_t ch, const char *s);
 void vcom_prompt_request(uint8_t ch);
 
+// workaround for the prompt being randomly sent all the time
+// this really just hides the bug,
+#define PROMPT_DEFAULT ">"
+#define PROMPT_REAL ">"
 
 uint8_t vcom_process_input(uint8_t ch, uint8_t c);	// defined as weak in usb_app.c, redefine for real use
 
