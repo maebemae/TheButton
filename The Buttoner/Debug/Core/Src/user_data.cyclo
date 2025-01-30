@@ -1,4 +1,0 @@
-../Core/Inc/user_data.h:32:13:FLASH_print_update	1
-../Core/Src/user_data.c:19:6:FLASH_get_user_data	1
-../Core/Src/user_data.c:24:22:erase_user_config	2
-../Core/Src/user_data.c:37:6:FLASH_write_user_messages	6
