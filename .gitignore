@@ -1,6 +1,8 @@
 # metadata
 .metadata/
 
+*~
+
 # Prerequisites
 *.d
 
