@@ -8,9 +8,17 @@ This project aims to solve a key issue of the everyday programmer - how to safel
 
 # Using the configurator
 
-The button will open a com port on your machine. To configure, simply connect to it and follow the instructions.
+The button will open a com port on your machine.
+
+To configure, simply connect to it with 115200 baud rate, and follow the instructions. Do not forget to save the new settings by writing to flash, else they will be lost after a power cycle.
+
+(On mac typically /dev/tty.usbmodem00011, on linux /dev/tty.ACME0) 
+If not sure, open the com port listing (i.e. ls /dev/tty, or check the list in windows, connect the button, and see what changed)
+
 If you have chrome, you can navigate to https://www.serialterminal.com/index.html
 Or else you can use screen, minicom, or any other com 
+
+This could be as simple as `screen /dev/tty.usbmodem00011`. To disconnect, just unplug the button
 
 # Flashing the firmware
 ## Using USB DFU
