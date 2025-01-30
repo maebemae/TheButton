@@ -50,12 +50,7 @@ TIM_HandleTypeDef htim2;
 PCD_HandleTypeDef hpcd_USB_DRD_FS;
 
 /* USER CODE BEGIN PV */
-// the funny character is not interpreted, so it acts as a pause while printing
-//const char NSFW_TEXTS[][100] = {{"FUUUUCK!!\n"}, {"FUCK!\n"}, {"Fuck.\n"}, {"Uhhššš fuck?\n"}};
-//const char NSFW_TEXTS[][100] = {{"AUGGHHHHHH!!! (>_<)\n"}, {"UGH! >.<\n"}, {"ugh... -_-\n"}, {"uhhššš ugh? ._.\n"}};
-
-//const char SFW_TEXTS[][100] = {{"My enemies have succeeded!\n"}, {"It is impossible to underestimate you...\n"}, {"Another great day to generate shareholder value\n"}, {"I'm afraid that...šš I am currently unable to can\n"}};
-
+bool main_initialized = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -126,6 +121,10 @@ uint32_t end_button_timer() {
 }
 
 void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
+	if(!main_initialized)
+	{
+		return;
+	}
 	if (GPIO_Pin == BUTTON_LO_Pin) {
 		BSP_LED_Off(LED_GREEN);
 	}
@@ -149,6 +148,11 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin) {
 }
 
 void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin) {
+	if(!main_initialized)
+	{
+		return;
+	}
+
 	if (GPIO_Pin == BUTTON_LO_Pin) {
 		BSP_LED_On(LED_GREEN);
 		uint32_t pressDurationUs = end_button_timer();
@@ -230,6 +234,7 @@ int main(void)
 
 	USBapp_Init();
 
+	main_initialized = true;
   /* USER CODE END BSP */
 
   /* Infinite loop */
