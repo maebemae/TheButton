@@ -64,3 +64,7 @@ The gbmUSBdevice library was slightly altered and linked into the project. See [
 1. Project
 	1. Cleanup structure 
 	1. Tag versions
+
+
+# License
+The project in it's entirety is released under GNU GPL V3, a copy of which can be found in ./LICENSE
