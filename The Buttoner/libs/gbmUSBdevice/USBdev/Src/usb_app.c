@@ -77,6 +77,10 @@ static struct cdc_data_ cdc_data[USBD_CDC_CHANNELS] = {
 static struct prn_data_ prn_data;
 #endif
 
+// forward declaration
+const struct usbdevice_ usbdev;
+
+
 #if USBD_HID
 static struct hid_data_ hid_data;
 
@@ -204,7 +208,7 @@ struct vcomcfg_ {
 };
 
 const struct vcomcfg_ vcomcfg[USBD_CDC_CHANNELS] = {
-	{VCOM0_rx_IRQn, VCOM0_tx_IRQn, SIGNON0, ">"},
+	{VCOM0_rx_IRQn, VCOM0_tx_IRQn, SIGNON0, PROMPT_DEFAULT},
 #if USBD_CDC_CHANNELS > 1
 	{VCOM1_rx_IRQn, VCOM1_tx_IRQn, SIGNON1},
 #if USBD_CDC_CHANNELS > 2
@@ -240,7 +244,12 @@ void vcom_write(uint8_t ch, const char *buf, uint16_t size)
 					NVIC_SetPendingIRQ(vcomcfg[ch].tx_irqn);
 				}
 				else
+				{
 					cds->TxTout = TX_TOUT;
+					// todo I'm not sure whether this is a bug or something, but without setting the pending irqn
+					// on some boards the last set of chars keeps on getting repeated
+					NVIC_SetPendingIRQ(vcomcfg[ch].tx_irqn);
+				}
 				__enable_irq();
 			}
 		}
@@ -337,7 +346,6 @@ __attribute__ ((weak)) void VCP_ConnStatus(uint8_t ch, bool on)
 #endif	// USBD_CDC_CHANNELS
 
 // forward declaration
-const struct usbdevice_ usbdev;
 
 #if USBD_CDC_CHANNELS
 
@@ -530,6 +538,7 @@ void VCOM_rx_IRQHandler(uint8_t ch)
 	{
 		// handle if not handled by LineStateHandler
 	}
+
 	if (cdc_data[ch].session.RxLength)
 	{
 		cdc_data[ch].session.connected = 1;
@@ -551,6 +560,7 @@ void VCOM_rx_IRQHandler(uint8_t ch)
 		cdc_data[ch].session.autonul = 0;
 		cdc_data[ch].session.prompt_rq |= vcom_process_input(ch, 0) & PIRET_PROMPTRQ;
 	}
+
 	if (cdc_data[ch].session.signon_rq)
 	{
 		cdc_data[ch].session.signon_rq = 0;
@@ -1155,5 +1165,9 @@ void USB_IRQHandler(void)
 }
 
 #endif // SIMPLE_CDC
+
+void FLASH_print_update(const char* message){
+	vcom_putstring(0, message);
+}
 
 //_Static_assert(USBD_NUM_EPPAIRS <= USB_NEPPAIRS, "Too many endpoints - not supported by USB hardware");

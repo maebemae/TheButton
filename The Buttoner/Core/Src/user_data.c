@@ -13,28 +13,15 @@
 
 // This actually accesses data from the flash
 // flash operates on dwords, so might as wel
-const volatile uint64_t *userConfig = (const volatile uint64_t*) MEMORY_BANK_2;
+const volatile uint64_t *userConfig =
+		(const volatile uint64_t*) MEMORY_BANK_2;
 
-uint64_t FLASH_Get_DWord(uint8_t offset) {
-	if (offset > MEMORY_DWORDS - 1) {
-		return 0;
-	}
-	return userConfig[offset];
+void FLASH_get_user_data(uint64_t* target, uint16_t len) {
+	memcpy(target, userConfig, len);
 }
 
-// todo hacky solution, just allows writing a single dword and deletes the whole page
-Flash_Status_TypeDef FLASH_Write_DWord(uint8_t offset, uint64_t data) {
 
-	if (offset > MEMORY_DWORDS - 1) {
-		return INVALID_OFFSET;
-	}
-	if (HAL_FLASH_Unlock() != HAL_OK) {
-		Error_Handler();
-		return LOCK_UNLOCK_ERROR;
-	}
-
-
-	// erase flash bank 1
+Flash_Status_TypeDef erase_user_config() {
 	FLASH_EraseInitTypeDef eraseTypeDef;
 	eraseTypeDef.NbPages = 1;
 	eraseTypeDef.Page = 63;
@@ -42,23 +29,45 @@ Flash_Status_TypeDef FLASH_Write_DWord(uint8_t offset, uint64_t data) {
 	uint32_t pageError;
 	HAL_FLASHEx_Erase(&eraseTypeDef, &pageError);
 	if (pageError != 0xFFFFFFFF) {
-		// or should we lock this?
-		return ERASE_ERROR;
-
+		return FLASH_ERASE_ERROR;
 	}
-	uint8_t result = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD,
-	MEMORY_BANK_2 + offset * 8, data);
-
-	if(result != HAL_OK){
-		return WRITE_ERROR;
-	}
-
-
-	if (HAL_FLASH_Lock() != HAL_OK) {
-		Error_Handler();
-		return LOCK_UNLOCK_ERROR;
-	}
-
-	return OK;
-
+	return FLASH_OK;
 }
+
+bool FLASH_write_user_messages(uint64_t* messages){
+	FLASH_print_update("--- DO NOT DISCONNECT POWER - THIS WILL LEAD TO DATA LOSS ---\r\n");
+	if(HAL_FLASH_Unlock() != HAL_OK) {
+		// handle can't unlock
+		FLASH_print_update("Can't unlock flash!\r\n");
+		return false;
+	}
+
+	FLASH_print_update("Erasing current messages from flash\r\n");
+	if(erase_user_config() != FLASH_OK) {
+		// handle can't
+		FLASH_print_update("Failed to erase flash!\r\n");
+	}
+
+	FLASH_print_update("Erase successful, writing data\r\n");
+	uint16_t total_size = sizeof(Button_Messages);
+
+	uint64_t* data_double_word = (uint64_t *)messages;
+
+	for(uint16_t offset = 0; offset < total_size; offset+=8) {
+		if(HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, MEMORY_BANK_2 + offset, *data_double_word++) != HAL_OK)
+		{
+			FLASH_print_update("Failed to write to flash!\r\n");
+			return false;
+		}
+
+	}
+
+	if(HAL_FLASH_Lock() != HAL_OK) {
+		FLASH_print_update("Failed to lock flash after operation!\r\n");
+		return false;
+	}
+	FLASH_print_update("Write successful!\r\n");
+	FLASH_print_update("--- It is now safe to disconnect power ---\r\n");
+	return true;
+}
+

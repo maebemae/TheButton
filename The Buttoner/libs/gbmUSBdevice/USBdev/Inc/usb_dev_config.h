@@ -9,7 +9,7 @@
 #ifndef SIMPLE_CDC
 
 #define USBD_MSC 0	// not supported yet
-#define USBD_CDC_CHANNELS	0
+#define USBD_CDC_CHANNELS	1
 #define USBD_PRINTER	0
 #define USBD_HID	1	// new, tested on U545
 

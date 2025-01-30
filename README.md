@@ -6,6 +6,12 @@ This project aims to solve a key issue of the everyday programmer - how to safel
 
 [Youtube Video](https://www.youtube.com/shorts/mlwx9P0IeXQ) showing the button in action
 
+# Using the configurator
+
+The button will open a com port on your machine. To configure, simply connect to it and follow the instructions.
+If you have chrome, you can navigate to https://www.serialterminal.com/index.html
+Or else you can use screen, minicom, or any other com 
+
 # Flashing the firmware
 ## Using USB DFU
 
@@ -41,14 +47,15 @@ The gbmUSBdevice library was slightly altered and linked into the project. See [
 # Todo
 
 1. Hardware
-	1. Add optional eeprom
-	1. Add hardware revision selector pins
+	1. [Not necessary] Add optional eeprom
+	1. [DONE] Add hardware revision selector pins
 	1. Add USB vid/pid selector (or do we just leave this in firmware?
 	1. Add OpenHardware Logo 
 
 1. Firmware
-	1. Add ondemand VCP to configure messages
+	1. [In progress] Add ondemand VCP to configure messages
 	1. Apply for dedicated vid/pid from openmoko
+	1. Cleanup startup so that button doesn't send messages when connected to usb
 
 1. Project
 	1. Cleanup structure 

@@ -10,6 +10,8 @@
 
 #include <stdint.h>
 
+#include "user_menu.h"
+
 extern volatile uint32_t usbdev_msec;
 
 void usbdev_tick(void);
@@ -22,6 +24,10 @@ void vcom_write(uint8_t ch, const char *buf, uint16_t size);
 void vcom_putchar(uint8_t ch, char c);
 void vcom_putstring(uint8_t ch, const char *s);
 void vcom_prompt_request(uint8_t ch);
+
+// workaround for the prompt being randomly sent all the time
+// this really just hides the bug,
+#define PROMPT_DEFAULT ">"
 
 uint8_t vcom_process_input(uint8_t ch, uint8_t c);	// defined as weak in usb_app.c, redefine for real use
 

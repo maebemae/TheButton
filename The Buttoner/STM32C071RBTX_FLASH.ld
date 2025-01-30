@@ -45,9 +45,9 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 MEMORY
 {
   RAM    (xrw)    : ORIGIN = 0x20000000,   	LENGTH = 24K
-  FLASH   (rx)    : ORIGIN = 0x8000000,    	LENGTH = 128K-2K
+  FLASH   (rx)    : ORIGIN = 0x8000000,    	LENGTH = 128K-4K
   /*2K for user data at the end of flash*/
-  DATA	 (rwx)	  : ORIGIN = 0x8010000, 	LENGTH = 4K
+  DATA	 (rw)	  : ORIGIN = 0x8010000, 	LENGTH = 4K
 }
 
 /* Sections */
@@ -61,7 +61,7 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
   
-  .user_data :
+  .user_data (READONLY):
   {	
   	. = ALIGN(4);
     *(.user_data)
