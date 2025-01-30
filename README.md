@@ -31,7 +31,10 @@ I've selected the STM32C071 as it has crystalless USB, is affordable with suffic
 
 Designed with Kicad, can be found under /pcb
 
-The schematic and gerbers can be found under /pcb/v<version>, e.g. /pcb/v1
+The schematic and gerbers can be found under /pcb/output/
+
+## KNOWN BUGS
+1. The debug header silkscreen is reversed (gnd/3v3!)
 
 # Firmware
 
@@ -51,6 +54,7 @@ The gbmUSBdevice library was slightly altered and linked into the project. See [
 	1. [DONE] Add hardware revision selector pins
 	1. Add USB vid/pid selector (or do we just leave this in firmware?
 	1. Add OpenHardware Logo 
+	1. Fix the debug header silkscreen
 
 1. Firmware
 	1. [In progress] Add ondemand VCP to configure messages
