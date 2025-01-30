@@ -11,18 +11,27 @@
 #include <stdint.h>
 #include "stm32c0xx_hal.h"
 
+#include "messages.h"
+
 typedef enum
 {
-  OK       = 0x00U,
-  INVALID_OFFSET = 0x01U,
-  WRITE_ERROR    = 0x02U,
-  LOCK_UNLOCK_ERROR = 0x03U,
-  ERASE_ERROR = 0x04
+  FLASH_OK       = 0x00U,
+  FLASH_INVALID_OFFSET = 0x01U,
+  FLASH_WRITE_ERROR    = 0x02U,
+  FLASH_LOCK_UNLOCK_ERROR = 0x03U,
+  FLASH_ERASE_ERROR = 0x04
 
 } Flash_Status_TypeDef;
 
-uint64_t FLASH_Get_DWord(uint8_t offset);
-Flash_Status_TypeDef FLASH_Write_DWord(uint8_t offset, uint64_t data);
+
+
+void FLASH_get_user_data(uint64_t* target, uint16_t len);
+bool FLASH_write_user_messages(uint64_t* messages);
+
+// override to have a printout of what's happening
+__weak void FLASH_print_update(char* message) {}
+
+
 
 
 #endif /* INC_USER_DATA_H_ */
